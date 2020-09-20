@@ -4,13 +4,14 @@
 	"version": "${version}",
 
 	"name": "chonk",
-	"description": "lode muh chonk",
+	"description": "lode muh chonk - Fork of vktec's original mod",
 	"authors": [
-		"vktec"
+		"vktec",
+		"logwet"
 	],
 	"contact": {
-		"homepage": "https://github.com/vktec/chonk",
-		"sources": "https://github.com/vktec/chonk"
+		"homepage": "https://github.com/logwet/chonk",
+		"sources": "https://github.com/logwet/chonk"
 	},
 
 	"license": "MIT",

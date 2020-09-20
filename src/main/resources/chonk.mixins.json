@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"minVersion": "0.8",
-	"package": "vktec.chonk.mixin",
+	"package": "me.logwet.chonk.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
 		"BlockStateMixin",

@@ -1,4 +1,4 @@
-package vktec.chonk.mixin;
+package me.logwet.chonk.mixin;
 
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import vktec.chonk.Chonk;
+import me.logwet.chonk.Chonk;
 
 @Mixin(ItemDispenserBehavior.class)
 public abstract class ItemDispenserBehaviorMixin {
