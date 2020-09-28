@@ -1,6 +1,8 @@
 plugins {
 	id 'fabric-loom' version '0.4-SNAPSHOT'
 	id 'maven-publish'
+	id 'com.github.johnrengelman.shadow' version '6.0.0'
+	id 'java'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -21,6 +23,11 @@ dependencies {
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
+
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.11.2'
+	shadow group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+	shadow group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.11.2'
 }
 
 minecraft {
@@ -54,6 +61,17 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = "sources"
 	from sourceSets.main.allSource
 }
+
+shadowJar {
+	classifier = "shadow"
+	configurations = [project.configurations.shadow]
+}
+
+task remapJar(type: net.fabricmc.loom.task.RemapJarTask, overwrite: true) {
+	from zipTree(shadowJar.archiveFile) dependsOn shadowJar
+}
+
+tasks.jar.archiveClassifier = "compile"
 
 jar {
 	from "LICENSE"

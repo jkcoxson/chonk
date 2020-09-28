@@ -1,0 +1,18 @@
+# See the Github for recommended and default object
+# https://github.com/logwet/chonk
+
+# Enables the mod
+enabled: true
+
+# Lifetime of each ticket
+life: 8
+
+# Controls the pot feature: Can be: include|exclude|disable
+pot: INCLUDE
+
+# The plant that activates the pot feature
+# Format it like this: FERN or ORANGE_TULIP. Full list of possible values in Github
+potType: CACTUS
+
+# Chunks registered in the pot system
+worlds: []

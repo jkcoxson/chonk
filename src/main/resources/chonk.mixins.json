@@ -1,13 +1,15 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "me.logwet.chonk.mixin",
-	"compatibilityLevel": "JAVA_8",
-	"mixins": [
-      	"AbstractBlockStateMixin",
-		"ItemDispenserBehaviorMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.logwet.chonk.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "AbstractBlockStateMixin",
+    "FlowerPotBlockMixin",
+    "ItemDispenserBehaviorMixin",
+    "MinecraftServerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
