@@ -3,6 +3,7 @@ package me.logwet.chonk.config.object;
 import java.util.List;
 
 public class Settings {
+    private Integer version;
     private Boolean enabled;
     private Integer life;
     private String pot;
@@ -10,6 +11,14 @@ public class Settings {
     private List<World> worlds;
 
     public Settings() {
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public Boolean getEnabled() {

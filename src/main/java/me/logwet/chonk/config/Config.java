@@ -20,13 +20,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
-import java.util.logging.Level;
 
 public class Config {
+    private static final Integer configVersion = 1;
 
     private static final Logger logger = LogManager.getLogger("ChonkConfig");
     private static final String identifier = "chonk";
@@ -35,12 +34,11 @@ public class Config {
 
     private static final List<String> loadedWorlds = new ArrayList<>();
     private static final Map<String, Map<List<Integer>, Boolean>> worldMap = new HashMap<>();
+    public static List<Block> acceptedBlocks = new ArrayList<>();
     private static PotLevel potLevel;
     private static PotType potType;
     private static MinecraftServer server;
     private static Settings settings;
-
-    public static List<Block> acceptedBlocks = new ArrayList<>();
 
     public static Boolean getEnabled() {
         return settings.getEnabled();
@@ -67,15 +65,13 @@ public class Config {
 
         if (!(configFile.exists() && configFile.isFile() && configFile.canRead())) {
             writeDefaultConfigToFile(configFile);
-            logger.warn("Chonk was unable to load the config file. Writing default config to disk");
+            logger.warn("Chonk was unable to load the config file. Wrote and used default config");
         }
 
         try {
             readConfigFromFile(configFile);
         } catch (IOException e) {
-            writeDefaultConfigToFile(configFile);
-            logger.warn("Chonk was unable to parse the config file. Writing and using default config");
-            readConfigFromFile(configFile);
+            throw new IOException("Chonk was unable to parse the config file. Check that the schema is correct.");
         }
     }
 
@@ -110,10 +106,10 @@ public class Config {
         logger.debug("Saved config to disk");
     }
 
-    public static boolean copy(InputStream source , String destination) {
+    public static boolean copy(InputStream source, String destination) {
         boolean success = true;
 
-        logger.info("Copying ->" + source + "\n\tto ->" + destination);
+        logger.info("Copying " + source + " to -> " + destination);
 
         try {
             Files.copy(source, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
@@ -123,7 +119,6 @@ public class Config {
         }
 
         return success;
-
     }
 
     private static void writeDefaultConfigToFile(File newFile) throws NullPointerException, IOException {
@@ -139,7 +134,7 @@ public class Config {
         return world.getRegistryKey().getValue().toString();
     }
 
-    public static void setConfig() throws IOException, IllegalArgumentException {
+    public static void setConfig() throws IOException, RuntimeException {
         // Get a list of worlds loaded by the server
         Iterable<ServerWorld> worldObjects = server.getWorlds();
         for (ServerWorld world : worldObjects) {
@@ -150,7 +145,16 @@ public class Config {
 
         readConfig();
 
+        if (settings.getVersion() > configVersion) {
+            throw new RuntimeException("Existing Chonk config file schema (" + settings.getVersion() +
+                    ") is newer that what is supported by this version (" + configVersion + ")");
+        } else if (settings.getVersion() < configVersion) {
+            throw new RuntimeException("Existing Chonk config file schema (" + settings.getVersion() +
+                    ") is older that what is supported by this version (" + configVersion + ")");
+        }
+
         Chonk.setExpiryTicks(settings.getLife());
+
         potLevel = PotLevel.valueOf(settings.getPot().toUpperCase(Locale.ENGLISH));
         potType = PotType.valueOf(settings.getPotType().toUpperCase(Locale.ENGLISH));
 
@@ -171,6 +175,7 @@ public class Config {
         acceptedBlocks.add(Blocks.REDSTONE_LAMP);
         acceptedBlocks.add(Blocks.DROPPER);
         acceptedBlocks.add(Blocks.DISPENSER);
+        logger.info("Finished adding blocks");
 
         logger.info("Finished initializing config");
     }
@@ -250,7 +255,7 @@ public class Config {
         public final Block plant;
         public final Block potPlant;
 
-        private PotType(Block plant, Block potPlant) {
+        PotType(Block plant, Block potPlant) {
             this.plant = plant;
             this.potPlant = potPlant;
         }
