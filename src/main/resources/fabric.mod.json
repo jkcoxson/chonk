@@ -6,7 +6,8 @@
   "description": "lode muh chonk - Fork of vktec's original mod",
   "authors": [
     "vktec",
-    "logwet"
+    "logwet",
+    "jkcoxson"
   ],
   "contact": {
     "homepage": "https://github.com/logwet/chonk",
@@ -21,6 +22,6 @@
   "accessWidener": "chonk.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.4",
-    "minecraft": "1.16.x"
+    "minecraft": ">=1.17.0"
   }
 }
