@@ -26,7 +26,7 @@ public abstract class ItemDispenserBehaviorMixin {
         if (world.isClient()) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
-        ChunkPos pos = new ChunkPos(block.getBlockPos());
+        ChunkPos pos = new ChunkPos(block.getPos());
 
         // Check if chunk fulfills pot rules
         if (Config.checkChunk(serverWorld, pos)) {
